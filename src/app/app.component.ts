@@ -18,8 +18,7 @@ constructor(private authService:AuthService){
 
   ngOnInit(){
       console.log("app comonent initialized");
-      this.authService.openModal.subscribe(
-        respo=>{console.log("from appcomonent "+respo);})
+   
 
   }
 

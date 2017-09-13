@@ -9,7 +9,7 @@ import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css','.././auth-header/auth-header.component.css']
 })
 export class LoginComponent implements OnInit {
 bsModalRef: BsModalRef;
@@ -23,24 +23,8 @@ bsModalRef: BsModalRef;
 
   ngOnInit() {
     console.log("login init");
-    this.authService.openModal.subscribe(
-      response=>{
-         this.bsModalRef = this.modalService.show(LoginComponent);
-         function  hideModal(){
-                this.authService.openModal.subscribe(
-                  resp=>{
-                     console.log(this.bsModalRef)
-                   }
-                   );
-               
-                // this.bsModalRef.hide();
-              }
 
-      })
   }
-
-
-
 
 
 

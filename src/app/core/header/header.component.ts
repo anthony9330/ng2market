@@ -19,11 +19,10 @@ bsModalRef: BsModalRef;
     private router:Router,
     private authServcie:AuthService) { }
 
-    openLoginModal() {
+    openLogin() {
 
-console.log("login click");
-      this.authServcie.openModal.next("login subject");
-      // this.router.navigate(['login']);
+      console.log("login click"); 
+         this.router.navigate(['login']);
         // this.bsModalRef = this.modalService.show(LoginComponent);
 
       }
@@ -33,11 +32,12 @@ console.log("login click");
           this.router.navigate(['products'],{relativeTo:this.route});
       }
 
-      openRegisterModal(){
-          this.authServcie.openModal.next("register subject");
-        // this.bsModalRef=this.modalService.show(RegisterComponent);
 
-      }
+        openRegister(){
+          this.router.navigate(['register'])
+
+        }
+              
 
 
 

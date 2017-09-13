@@ -20,6 +20,7 @@ import {AuthService} from './auth/auth.service';
 import {AppRoutingModule} from "./app-routing.module";
 import {CoreComponent} from "./core/core.component";
 import {CoreModule} from "./core/core.module";
+import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
 
 
 
@@ -29,7 +30,7 @@ import {CoreModule} from "./core/core.module";
       LoginComponent,
     RegisterComponent,
     AdminComponent, 
-    UserComponent
+    UserComponent, AuthHeaderComponent
   ],
   imports: [
     BrowserModule,
