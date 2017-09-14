@@ -9,6 +9,8 @@ import {Observable} from 'rxjs';
 export class AuthService {
     constructor(private http:Http){}
 
+    token:string;
+
     openModal=new Subject<any>();
 
     emitModalTag(modal) {
@@ -44,14 +46,29 @@ export class AuthService {
           )
         .do(
             tokenData=>{
+              this.token=tokenData.token;
               localStorage.setItem("token",tokenData.token);
             }
           );
     }
 
     getToken(){
+
+      //   FIX IN CASE IF TOKEN EXPIRED LOOK INTO RECIPEAPP
+      this.token= localStorage.getItem("token");
       return localStorage.getItem("token");
     }
+
+    logOut(){
+      this.token=null;
+      localStorage.removeItem("token");
+    }
+
+  isAuthenticated(){
+    this.token= localStorage.getItem("token");
+    console.log('isAuthenticated call'+this.token);
+    return this.token!=null;
+  }
 
 
 

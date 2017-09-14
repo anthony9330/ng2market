@@ -13,6 +13,7 @@ import { ProductSingleComponent } from './products/product-single/product-single
 import { AdminComponent } from './users/admin/admin.component';
 import { UserComponent } from './users/user/user.component';
 import { RouterModule, Routes } from '@angular/router';
+import {AuthGuard} from './auth/auth-guard.service';
 
 
 
@@ -20,11 +21,12 @@ import { RouterModule, Routes } from '@angular/router';
     
 
 const appRoutes=[
-  {path:'',redirectTo: '/main',pathMatch: 'full'},
+
   {path:'main',loadChildren :'./core/core.module#CoreModule'},
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'userpage',component:UserComponent},
+    {path:'',redirectTo: '/main',pathMatch: 'full'},
 ];
 
 

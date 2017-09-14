@@ -21,7 +21,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import {CoreComponent} from "./core/core.component";
 import {CoreModule} from "./core/core.module";
 import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
-
+import { UsersHeaderComponent } from './users/users-header/users-header.component';
+import { UsersService } from './users/users.service';
+import {AuthGuard} from './auth/auth-guard.service';
 
 
 @NgModule({
@@ -30,7 +32,7 @@ import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
       LoginComponent,
     RegisterComponent,
     AdminComponent, 
-    UserComponent, AuthHeaderComponent
+    UserComponent, AuthHeaderComponent, UsersHeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
     
 
   ],
-  providers: [BsModalRef,AuthService],
+  providers: [BsModalRef,AuthService,UsersService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
