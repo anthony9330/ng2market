@@ -9,6 +9,8 @@ import {AuthService} from "../auth.service";
   styleUrls: ['./register.component.css','.././auth-header/auth-header.component.css']
 })
 export class RegisterComponent implements OnInit {
+register_text:string;
+toggleStatus='';
 
  constructor(public bsModalRef: BsModalRef,
             private authService:AuthService) { }
@@ -21,8 +23,20 @@ export class RegisterComponent implements OnInit {
     var phone=form.value.phone;
     var location=form.value.location;
      this.authService.signup(email,name,password,phone,location).subscribe(
-        response=>console.log(response),
-        error=>console.log(error)
+        (response)=>{
+         if(response.status==201 ){
+           this.register_text= response.json().message;
+           this.toggleStatus='success';
+             console.log(response);
+         }
+        
+
+        },
+        (error)=>{
+          this.register_text="Unable to register";
+           this.toggleStatus='fail'; 
+          console.log(error);
+        }
        )
 
  }
@@ -34,6 +48,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     console.log("register init");
+
+    this.authService.getModal().subscribe(
+      (modal:BsModalRef)=>{
+        this.bsModalRef=modal;
+      })
   }
 
 }

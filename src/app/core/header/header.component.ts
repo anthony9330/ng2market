@@ -37,7 +37,10 @@ bsModalRef: BsModalRef;
 
 
         openRegister(){
-          this.router.navigate(['register'])
+
+           this.bsModalRef = this.modalService.show(RegisterComponent);
+           this.authServcie.emitModalTag(this.bsModalRef);
+          // this.router.navigate(['register'])
 
         }
               

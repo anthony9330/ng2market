@@ -14,9 +14,13 @@
     padding: 20px;
 }
 
-.auth-container label {
+.auth-container label ,.auth-container-modal label {
   
     text-transform: uppercase;
 }
 
+.auth-container-modal  {
+    padding: 20px;
+     text-align: center;
+}
 

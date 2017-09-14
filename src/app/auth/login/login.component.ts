@@ -13,6 +13,10 @@ import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 bsModalRef: BsModalRef;
+login_text:string;
+toggleLogin:string;
+
+
 
 
   constructor(public modalService: BsModalService,
@@ -27,13 +31,10 @@ bsModalRef: BsModalRef;
    this.authService.openModal.subscribe(
    (modal:BsModalRef)=>{
          this.bsModalRef=modal;
-         console.log(modal)
+      
        }
-     );
-   
+     );   
   }
-
-
 
     onSubmit(form:NgForm){
         var email=form.value.email;
@@ -51,7 +52,11 @@ bsModalRef: BsModalRef;
 
                 },
 
-                error=>console.log(error)
+                (error)=>{
+                    this.login_text=error.json().error;
+                    this.toggleLogin='fail';
+                 console.log(error) ;
+                }
             )
     }
 

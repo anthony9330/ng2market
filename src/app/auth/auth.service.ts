@@ -22,7 +22,12 @@ export class AuthService {
     signup(email:string,name:string,password:string,phone:string,location:string){
       return this.http.post('http://ng2-market/public/api/user/signup',
         {email:email,name:name,password:password,phone:phone,location:location},
-        {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})});
+        {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})})
+      // .map(
+      //   (response)=>{
+      //       return response.json();
+      //    }
+      //   );
     }
 
     signin(email:string,password:string){

@@ -5,6 +5,7 @@
   </button>
 </div>
 <div class="modal-body">
+<app-auth-header></app-auth-header>
     <div class="auth-container-modal">
         <form (ngSubmit)="onSubmit(f)" #f='ngForm'>
               <div class="form-group">
@@ -18,6 +19,9 @@
               <button type="submit"  class="btn btn-primary">Login</button>
         </form>
     </div>
+</div>
+<div [ngClass]="{'alert alert-danger':toggleLogin=='fail'}">
+  {{login_text}}
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
