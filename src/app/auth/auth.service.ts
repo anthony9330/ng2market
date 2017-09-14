@@ -2,13 +2,22 @@ import {Http,Headers,Response} from '@angular/http';
 import {Injectable} from "@angular/core";
 import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
+import {Observable} from 'rxjs';
 
 
 @Injectable()
 export class AuthService {
     constructor(private http:Http){}
 
-    openModal=new Subject<string>();
+    openModal=new Subject<any>();
+
+    emitModalTag(modal) {
+       this.openModal.next(modal);
+    }
+
+    getModal():Observable<any>{
+        return this.openModal.asObservable();
+    }
 
     signup(email:string,name:string,password:string,phone:string,location:string){
       return this.http.post('http://ng2-market/public/api/user/signup',

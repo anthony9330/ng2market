@@ -14,6 +14,7 @@ import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 export class LoginComponent implements OnInit {
 bsModalRef: BsModalRef;
 
+
   constructor(public modalService: BsModalService,
     private authService:AuthService,
     private router:Router) {
@@ -23,7 +24,13 @@ bsModalRef: BsModalRef;
 
   ngOnInit() {
     console.log("login init");
-
+   this.authService.openModal.subscribe(
+   (modal:BsModalRef)=>{
+         this.bsModalRef=modal;
+         console.log(modal)
+       }
+     );
+   
   }
 
 
@@ -36,6 +43,8 @@ bsModalRef: BsModalRef;
                   console.log('from login component:');
                  if(response.token!=null){
                      this.router.navigate(['/userpage']);
+                     this.bsModalRef.hide();  
+
                    
 
                  }

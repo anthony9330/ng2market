@@ -22,8 +22,11 @@ bsModalRef: BsModalRef;
     openLogin() {
 
       console.log("login click"); 
-         this.router.navigate(['login']);
-        // this.bsModalRef = this.modalService.show(LoginComponent);
+         // this.router.navigate(['login']);
+         // this.authServcie.modalTag("modal login");
+       
+         this.bsModalRef = this.modalService.show(LoginComponent);
+         this.authServcie.emitModalTag(this.bsModalRef);
 
       }
 
