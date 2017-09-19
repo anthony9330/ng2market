@@ -1,19 +1,22 @@
 <app-users-header></app-users-header>
 
   <div class="container">
-    <form  (ngSubmit)="onSubmit(f)" #f='ngForm'>
+    <form  (ngSubmit)="onSubmit(f)" #f='ngForm'  enctype="multipart/form-data">
               <div class="form-group">
                 <label for="title">Product Title</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="Product Title" ngModel>
+                <input type="text" class="form-control" name="title" id="title" placeholder="Product Title" ngModel required>
               </div>      
               <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" class="form-control" id="price" name="price"  placeholder="100" ngModel>
+                <input type="number" class="form-control" id="price" name="price"  placeholder="100" ngModel required>
               </div> 
               <div class="form-group">
                 <label for="price">Category</label>
-                <select class="form-control" name="category" id="category" ngModel>
+                <select class="form-control" name="category" id="category" ngModel required>
                   <option value=""></option>
+                  <option value="{{category.id}}" attr.data-creation="{{category.created_at}}" *ngFor="let category of categoriesList">
+                    {{category.category_name | uppercase}}
+                  </option>
                 </select>
               </div> 
               <div class="form-group">
@@ -25,10 +28,20 @@
                 <input type="text" class="form-control" id="location" name="location"  placeholder="lviv" ngModel>
               </div> 
               <div class="form-group">
-                <label for="image">Image</label>
-                <input type="text" class="form-control" id="image" name="image"  placeholder="url" ngModel>
+              <input type="file" (change)="fileChange($event)"   placeholder="Upload file" >
+               
+                <!-- <input type="file"   class="form-control" id="image" name="image"  ngModel> -->
               </div> 
+              <div  class="preview">
+                <img [src]="imgSrc" id="preview">
+              </div>
+
+             
+           
               <button type="submit"  class="btn btn-primary">Submit</button>
+
+
+
 
 
     </form>

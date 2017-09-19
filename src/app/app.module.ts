@@ -24,6 +24,7 @@ import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
 import { UsersHeaderComponent } from './users/users-header/users-header.component';
 import { UsersService } from './users/users.service';
 import {AuthGuard} from './auth/auth-guard.service';
+import {ImageUploadModule } from "angular2-image-upload";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {AuthGuard} from './auth/auth-guard.service';
     HttpModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    ImageUploadModule.forRoot()
     
 
   ],

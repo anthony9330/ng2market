@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../auth/auth.service';
 
+import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 
 @Component({
   selector: 'app-users-header',
@@ -9,7 +10,8 @@ import {AuthService} from '../../auth/auth.service';
 })
 export class UsersHeaderComponent implements OnInit {
 
-  constructor(private authService:AuthService) { }
+  constructor(private authService:AuthService,
+    private router:Router) { }
 
   loggedIn=this.authService.isAuthenticated();
 
@@ -18,6 +20,7 @@ export class UsersHeaderComponent implements OnInit {
 
   LogOut(){
     this.authService.logOut();
+    this.router.navigate(['main']);
   }
 
 }
