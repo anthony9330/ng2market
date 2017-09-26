@@ -26,6 +26,10 @@ import { UsersService } from './users/users.service';
 import {AuthGuard} from './auth/auth-guard.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
+import {MdProgressBarModule} from "@angular/material";
+import {SharedModule} from "./shared/shared.module";
+import {LoaderService} from "./shared/loader.service";
+
 
 
 @NgModule({
@@ -34,7 +38,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
       LoginComponent,
     RegisterComponent,
     AdminComponent, 
-    UserComponent, AuthHeaderComponent, UsersHeaderComponent
+    UserComponent,
+     AuthHeaderComponent,
+      UsersHeaderComponent,
+  
+
   ],
   imports: [
     BrowserModule,
@@ -42,15 +50,18 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    // MdProgressBarModule,
+    SharedModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    
 
 
 
     
 
   ],
-  providers: [BsModalRef,AuthService,UsersService,AuthGuard],
+  providers: [BsModalRef,AuthService,UsersService,AuthGuard,LoaderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

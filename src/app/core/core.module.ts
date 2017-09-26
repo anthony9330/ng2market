@@ -23,6 +23,8 @@ import {MdButtonModule,
 MdProgressBarModule,
 MdFormFieldModule,
 MdInputModule} from '@angular/material';
+import {SharedModule} from "../shared/shared.module";
+
 
 
 
@@ -42,6 +44,8 @@ MdInputModule} from '@angular/material';
     CoreComponent
 
 
+
+
   ],
   imports: [
     CommonModule,
@@ -52,13 +56,14 @@ MdInputModule} from '@angular/material';
     CoreRoutingModule,
     CarouselModule.forRoot(),
       CommonModule,
+
      
-      MdDatepickerModule,
-      MdNativeDateModule,
-      MdProgressBarModule,
+   
+      // MdProgressBarModule,
       MdFormFieldModule,
       MdInputModule,
-    MdCheckboxModule
+  
+    SharedModule
 
   ],
     // providers: [AuthService],

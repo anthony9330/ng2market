@@ -19,6 +19,8 @@ bsModalRef: BsModalRef;
     private router:Router,
     private authServcie:AuthService) { }
 
+    loggedIn=this.authServcie.isAuthenticated();
+
     openLogin() {
 
       console.log("login click"); 
@@ -42,6 +44,15 @@ bsModalRef: BsModalRef;
            this.authServcie.emitModalTag(this.bsModalRef);
           // this.router.navigate(['register'])
 
+        }
+
+        accountPage(){
+          if(this.authServcie.isAdmin(localStorage.getItem('token'))){
+            this.router.navigate(['adminpage']);
+          }
+          else {
+            this.router.navigate(['userpage']);
+          }
         }
               
 

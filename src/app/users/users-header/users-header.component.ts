@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../auth/auth.service';
+import {LoaderService} from "../../shared/loader.service";
 
 import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 
@@ -11,7 +12,8 @@ import { ActivatedRoute, Params, Router, Data } from '@angular/router';
 export class UsersHeaderComponent implements OnInit {
 
   constructor(private authService:AuthService,
-    private router:Router) { }
+    private router:Router,
+    private loaderService:LoaderService) { }
 
   loggedIn=this.authService.isAuthenticated();
 
@@ -20,6 +22,11 @@ export class UsersHeaderComponent implements OnInit {
 
   LogOut(){
     this.authService.logOut();
+    this.router.navigate(['main']);
+  }
+
+  toMain(){
+    this.loaderService.show();
     this.router.navigate(['main']);
   }
 

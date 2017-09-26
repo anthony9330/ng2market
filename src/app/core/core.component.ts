@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoaderService} from ".././shared/loader.service";
 
 @Component({
   selector: 'app-core',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class CoreComponent implements OnInit{
-  constructor() { }
+  constructor(
+    private loaderService:LoaderService) { }
 
   ngOnInit() {
     console.log("core component");
+    this.loaderService.hide();
+
   }
 }
 
