@@ -16,6 +16,15 @@ import {LoginComponent} from "../auth/login/login.component";
 import {RegisterComponent} from "../auth/register/register.component";
 
 
+import {MdButtonModule,
+ MdCheckboxModule,
+ MdDatepickerModule,
+ MdNativeDateModule,
+MdProgressBarModule,
+MdFormFieldModule,
+MdInputModule} from '@angular/material';
+
+
 
 
 
@@ -41,11 +50,22 @@ import {RegisterComponent} from "../auth/register/register.component";
     BsDropdownModule.forRoot(),
   //  ModalModule.forRoot(),
     CoreRoutingModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+      CommonModule,
+     
+      MdDatepickerModule,
+      MdNativeDateModule,
+      MdProgressBarModule,
+      MdFormFieldModule,
+      MdInputModule,
+    MdCheckboxModule
 
   ],
     // providers: [AuthService],
 })
+
+///BrowserAnimationsModule -конфлікт ,як імпортувати стилі для інпутів
+// довга загрузка між сторінками і при запуску аплікухи
 
 export class CoreModule {
 

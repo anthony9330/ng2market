@@ -24,9 +24,8 @@ import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
 import { UsersHeaderComponent } from './users/users-header/users-header.component';
 import { UsersService } from './users/users.service';
 import {AuthGuard} from './auth/auth-guard.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-// import {BrowserAnimationsModule} from '@angular/animations';
-// import {MdButtonModule, MdCheckboxModule} from '@angular/material';
 
 
 @NgModule({
@@ -44,8 +43,10 @@ import {AuthGuard} from './auth/auth-guard.service';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     AppRoutingModule,
-   
-    // BrowserAnimationsModule
+    BrowserAnimationsModule
+
+
+
     
 
   ],
