@@ -38,6 +38,9 @@ export class UserComponent implements OnInit {
 
       );
 
+   
+    console.log("token from user component"+ this.userService.getToken());
+
   }
 
 

@@ -43,9 +43,17 @@ toggleLogin:string;
                 response=>{
                   console.log('from login component:');
                  if(response.token!=null){
-                     this.router.navigate(['/userpage']);
+                   if(this.authService.isAdmin(response.token)){
+                     // console.log("is admin from login"+this.authService.isAdmin(response.token));
+                     this.router.navigate(['/adminpage']);
+                       this.bsModalRef.hide();  
+                   }else {
+                      this.router.navigate(['/userpage']);
                      this.bsModalRef.hide();  
 
+                   }
+
+                    
                    
 
                  }

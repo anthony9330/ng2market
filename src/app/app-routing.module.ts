@@ -17,7 +17,6 @@ import {AuthGuard} from './auth/auth-guard.service';
 
 
 
-
     
 
 const appRoutes=[
@@ -26,7 +25,8 @@ const appRoutes=[
   {path:'login',component:LoginComponent},
   {path:'register',component:RegisterComponent},
   {path:'userpage',component:UserComponent},
-    {path:'',redirectTo: '/main',pathMatch: 'full'},
+  {path:'adminpage',component:AdminComponent},
+  {path:'',redirectTo: '/main',pathMatch: 'full'},
 ];
 
 

@@ -2,16 +2,23 @@ import {Http,Headers,Response} from '@angular/http';
 import {Injectable} from "@angular/core";
 import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import { tokenNotExpired } from 'angular2-jwt';
 
 
 @Injectable()
 export class AuthService {
-    constructor(private http:Http){}
 
-    token:string;
+   token:string;
+   openModal=new Subject<any>();
 
-    openModal=new Subject<any>();
+    constructor(private http:Http){
+      this.token=localStorage.getItem("token");
+     
+      console.log("Token not expired"+ tokenNotExpired());
+    }
+
+   
 
     emitModalTag(modal) {
        this.openModal.next(modal);
@@ -39,9 +46,9 @@ export class AuthService {
         .map(
           (response:Response)=>{
               const token= response.json().token;
-              const base64Url=token.split('.')[1];
-              const base64=base64Url.replace('-','+').replace('_','/');
-              return {token:token,decoded:JSON.parse(window.atob(base64))};
+              this.isAdmin(token);
+
+              return {token:token};
             }
           )
         .do(
@@ -55,8 +62,9 @@ export class AuthService {
     getToken(){
 
       //   FIX IN CASE IF TOKEN EXPIRED LOOK INTO RECIPEAPP
-      this.token= localStorage.getItem("token");
-      return localStorage.getItem("token");
+      // this.token= localStorage.getItem("token");
+      // return localStorage.getItem("token");
+      return this.token;
     }
 
     logOut(){
@@ -65,9 +73,24 @@ export class AuthService {
     }
 
   isAuthenticated(){
-    this.token= localStorage.getItem("token");
+    // this.token= localStorage.getItem("token");
     console.log('isAuthenticated call'+this.token);
     return this.token!=null;
+  }
+
+
+
+
+  isAdmin(token):Boolean {
+              const base64Url=token.split('.')[1];
+              const base64=base64Url.replace('-','+').replace('_','/');
+              console.log(JSON.parse(window.atob(base64)));
+              const user=JSON.parse(window.atob(base64));
+              const user_id=user.sub;
+              if(user_id==1){
+                return true;  
+              }
+              else return false;
   }
 
 

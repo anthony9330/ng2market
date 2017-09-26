@@ -24,7 +24,9 @@ import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
 import { UsersHeaderComponent } from './users/users-header/users-header.component';
 import { UsersService } from './users/users.service';
 import {AuthGuard} from './auth/auth-guard.service';
-import {ImageUploadModule } from "angular2-image-upload";
+
+// import {BrowserAnimationsModule} from '@angular/animations';
+// import {MdButtonModule, MdCheckboxModule} from '@angular/material';
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import {ImageUploadModule } from "angular2-image-upload";
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     AppRoutingModule,
-    ImageUploadModule.forRoot()
+   
+    // BrowserAnimationsModule
     
 
   ],
