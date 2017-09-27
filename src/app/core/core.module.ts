@@ -69,7 +69,7 @@ import {SharedModule} from "../shared/shared.module";
     // providers: [AuthService],
 })
 
-///BrowserAnimationsModule -конфлікт ,як імпортувати стилі для інпутів
+
 // довга загрузка між сторінками і при запуску аплікухи
 
 export class CoreModule {

@@ -4,11 +4,13 @@ import { NgForm} from '@angular/forms';
 
 import {AuthService} from "../auth/auth.service";
 
+
 @Injectable()
 export class UsersService{
 
     constructor(private http:Http,
-              private authService:AuthService){
+              private authService:AuthService,
+             ){
 
     }
 
@@ -32,8 +34,11 @@ export class UsersService{
         additionalFields:additionalFields
     } ;  
     formData.append('user_info',JSON.stringify(objData));    
+
     console.log(this.getToken());
+    console.log("file from user service");
     console.log(file);
+    console.log(formData);
   
 
 

@@ -14,6 +14,7 @@ export class CoreComponent implements OnInit{
   ngOnInit() {
     console.log("core component");
     this.loaderService.hide();
+    
 
   }
 }

@@ -21,6 +21,7 @@ export class UsersHeaderComponent implements OnInit {
   }
 
   LogOut(){
+    this.loaderService.show();
     this.authService.logOut();
     this.router.navigate(['main']);
   }

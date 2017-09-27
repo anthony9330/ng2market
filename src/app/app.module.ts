@@ -12,8 +12,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductSingleComponent } from './products/product-single/product-single.component';
-import { AdminComponent } from './users/admin/admin.component';
-import { UserComponent } from './users/user/user.component';
+
+// import { UserComponent } from './users/user/user.component';
 
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import {AuthService} from './auth/auth.service';
@@ -21,7 +21,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {CoreComponent} from "./core/core.component";
 import {CoreModule} from "./core/core.module";
 import { AuthHeaderComponent } from './auth/auth-header/auth-header.component';
-import { UsersHeaderComponent } from './users/users-header/users-header.component';
+
 import { UsersService } from './users/users.service';
 import {AuthGuard} from './auth/auth-guard.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -32,15 +32,16 @@ import {LoaderService} from "./shared/loader.service";
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
       LoginComponent,
     RegisterComponent,
-    AdminComponent, 
-    UserComponent,
+  
+ 
      AuthHeaderComponent,
-      UsersHeaderComponent,
+      // UsersHeaderComponent,
   
 
   ],
@@ -61,8 +62,15 @@ import {LoaderService} from "./shared/loader.service";
     
 
   ],
-  providers: [BsModalRef,AuthService,UsersService,AuthGuard,LoaderService],
+  providers: [BsModalRef,
+  AuthService,
+  UsersService,
+  AuthGuard,
+  // provides in shared folder
+  // LoaderService
+  ],
   bootstrap: [AppComponent]
+ 
 })
 export class AppModule { }
 

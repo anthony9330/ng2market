@@ -17,7 +17,8 @@ bsModalRef: BsModalRef;
   constructor(private  modalService: BsModalService,
     private route:ActivatedRoute,
     private router:Router,
-    private authServcie:AuthService) { }
+    private authServcie:AuthService
+    ) { }
 
     loggedIn=this.authServcie.isAuthenticated();
 
@@ -47,12 +48,20 @@ bsModalRef: BsModalRef;
         }
 
         accountPage(){
+
+          console.log("accountpage called");
+
           if(this.authServcie.isAdmin(localStorage.getItem('token'))){
+
+            console.log("inside of service from accoutn page func");
             this.router.navigate(['adminpage']);
           }
           else {
+            console.log("inside of service from accoutn page func to user page");
             this.router.navigate(['userpage']);
           }
+        
+
         }
               
 

@@ -4,6 +4,9 @@ import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
+import {LoaderService} from "../shared/loader.service";
+import {MdDialog, MdDialogRef} from '@angular/material';
+import { TokenModalComponent } from "../shared/token-modal/token-modal.component";
 
 
 @Injectable()
@@ -12,12 +15,32 @@ export class AuthService {
    token:string;
    openModal=new Subject<any>();
 
-    constructor(private http:Http){
+    constructor(private http:Http,
+      private loader:LoaderService,
+      public dialog: MdDialog){
       this.token=localStorage.getItem("token");
      
       console.log("Token not expired"+ tokenNotExpired());
+
+      if(!tokenNotExpired() && this.token!=null){
+       this.openDialog();
+       this.logOut();
+      }
+     
     }
 
+     openDialog(): void {
+
+        let dialogRef = this.dialog.open(TokenModalComponent, {
+          width: 'auto',
+          data: { name: "name ", animal: "animal " }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+        
+      
+        });
+      }
    
 
     emitModalTag(modal) {
@@ -29,6 +52,7 @@ export class AuthService {
     }
 
     signup(email:string,name:string,password:string,phone:string,location:string){
+
       return this.http.post('http://ng2-market/public/api/user/signup',
         {email:email,name:name,password:password,phone:phone,location:location},
         {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})})
@@ -40,6 +64,7 @@ export class AuthService {
     }
 
     signin(email:string,password:string){
+         this.loader.show();
         return this.http.post('http://ng2-market/public/api/user/signin',
           {email:email,password:password},
           {headers: new Headers({'X-Requested-With':'XMLHttpRequest'})})
@@ -49,6 +74,9 @@ export class AuthService {
               this.isAdmin(token);
 
               return {token:token};
+            },
+            (error:Error)=>{
+
             }
           )
         .do(
@@ -56,7 +84,9 @@ export class AuthService {
               this.token=tokenData.token;
               localStorage.setItem("token",tokenData.token);
             }
-          );
+          ).finally(()=>{
+            this.loader.hide();
+          });
     }
 
     getToken(){

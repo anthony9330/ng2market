@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoaderService} from "../../shared/loader.service";
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor( private loader:LoaderService) { }
 
   ngOnInit() {
+    console.log("admin comp oninit");
+    this.loader.show();
   }
 
 }

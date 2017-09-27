@@ -6,6 +6,7 @@ import {Category} from "../category.model";
 import {Headers} from "@angular/http";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
+import {LoaderService} from "../../shared/loader.service";
 
 @Component({
   selector: 'app-user',
@@ -20,12 +21,15 @@ export class UserComponent implements OnInit {
  
 
 
-  imageHeaders= new Headers({'X-Requested-With':'XMLHttpRequest','Access-Control-Allow-Origin':'*','Authorization':localStorage.getItem('token')});
-
+  
   constructor(private userService:UsersService,
-    private http:Http) { }
+              private http:Http,
+              private loader:LoaderService) { }
 
   ngOnInit() {
+
+    console.log("userpage on init");
+
     this.userService.getCategories().subscribe(
       (response:Response)=>{
         if(response.json().categories!=null && response.json().categories!=undefined){
@@ -50,14 +54,24 @@ imageFinishedUploading(file: Event){
 }
 
   onSubmit(form:NgForm){
-    
+    this.loader.show();
    
       this.userService.submitProduct(form,this.file).subscribe(
-        (response)=>{console.log(response.json());},
+        (response)=>{
+          alert("succesfully uploaded");
+          console.log(response.json());
+        },
 
-        (error)=>{console.log("error"+error);}
+        (error)=>{
+          alert("aomething went wrong");
+          console.log("error"+error);
+        },
+
         );
+      this.loader.hide();
   }
+
+
 
   fileChange(event){
    let fileList: FileList = event.target.files;
@@ -77,13 +91,13 @@ imageFinishedUploading(file: Event){
              reader.readAsDataURL(this.file);
        
        
-        this.http.post('http://ng2-market/public/api/imageload?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9uZzItbWFya2V0L3B1YmxpYy9hcGkvdXNlci9zaWduaW4iLCJpYXQiOjE1MDU4NDYwMzUsImV4cCI6MTUwNTg0OTYzNSwibmJmIjoxNTA1ODQ2MDM1LCJqdGkiOiIwV2VOb1plYjVUMVVYWXVnIn0.zj_zLml48J92LPEedf2k2vUnH0dmdNx7odlRKlimG1U', formData )
+        // this.http.post('http://ng2-market/public/api/imageload?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9uZzItbWFya2V0L3B1YmxpYy9hcGkvdXNlci9zaWduaW4iLCJpYXQiOjE1MDU4NDYwMzUsImV4cCI6MTUwNTg0OTYzNSwibmJmIjoxNTA1ODQ2MDM1LCJqdGkiOiIwV2VOb1plYjVUMVVYWXVnIn0.zj_zLml48J92LPEedf2k2vUnH0dmdNx7odlRKlimG1U', formData )
            
            
-            .subscribe(
-                data => console.log(data.json()),
-                error => console.log(error)
-            )
+        //     .subscribe(
+        //         data => console.log(data.json()),
+        //         error => console.log(error)
+        //     )
 
     }
   }
