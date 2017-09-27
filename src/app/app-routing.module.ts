@@ -8,7 +8,7 @@ import { HomeComponent } from './core/home/home.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { ProductsComponent } from './products/products.component';
+
 import { ProductSingleComponent } from './products/product-single/product-single.component';
 
 import { RouterModule, Routes } from '@angular/router';

@@ -16,6 +16,7 @@ export class UsersHeaderComponent implements OnInit {
     private loaderService:LoaderService) { }
 
   loggedIn=this.authService.isAuthenticated();
+  isAdmin=this.authService.isAdmin(localStorage.getItem("token"));
 
   ngOnInit() {
   }
@@ -30,5 +31,6 @@ export class UsersHeaderComponent implements OnInit {
     this.loaderService.show();
     this.router.navigate(['main']);
   }
+
 
 }
