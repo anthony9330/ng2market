@@ -1,3 +1,65 @@
-<p>
-  categories works!
-</p>
+<div class="container">
+  <div class="col-md-6">
+  <div class="example-container mat-elevation-z8">
+            <md-table #table [dataSource]="dataSource">
+              <md-row></md-row>  
+
+              <!--- Note that these columns can be defined in any order.
+                    The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container mdColumnDef="number">
+                <md-header-cell *mdHeaderCellDef> No. </md-header-cell>
+                <md-cell *mdCellDef="let element"> {{element.id}} </md-cell>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container mdColumnDef="category_name">
+                <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
+                <md-cell *mdCellDef="let element"> {{element.category_name}} </md-cell>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container mdColumnDef="imagesPath">
+                <md-header-cell *mdHeaderCellDef> Weight </md-header-cell>
+                <md-cell *mdCellDef="let element"> {{element.progress}} </md-cell>
+              </ng-container>
+
+              <!-- Color Column -->
+              <ng-container mdColumnDef="additionalFields">
+                <md-header-cell *mdHeaderCellDef> Symbol </md-header-cell>
+                <md-cell *mdCellDef="let element"> {{element.additionalFields}} </md-cell>
+              </ng-container>
+
+              <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+              <md-row  (click)="RowClick(row)" *mdRowDef="let row; columns: displayedColumns; "></md-row>
+            </md-table>
+            <md-paginator #paginator
+                [length]="exampleDatabase.data.length"
+                [pageIndex]="0"
+                [pageSize]="25"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+            </md-paginator>
+
+          </div>
+
+        
+
+      
+       <select class="form-control" name="category" id="category" ngModel required>
+                  <option value=""></option>
+                  <option value="{{category.id}}" attr.data-creation="{{category.created_at}}" *ngFor="let category of categories">
+                    {{category.category_name | uppercase}}
+                  </option>
+      </select>
+
+      <div *ngFor="let elem of categories">{{elem.id}}--{{elem.category_name}}   </div>
+
+
+
+  </div>
+
+  <div class="col-md-6">
+      <router-outlet></router-outlet>
+  </div>
+</div>

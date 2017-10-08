@@ -10,21 +10,30 @@ import {SharedModule} from "../../shared/shared.module";
 import { CategoriesComponent } from './categories/categories.component';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { UsersEditComponent } from './users-edit/users-edit.component';
+import { MdTableModule } from '@angular/material';
+import {CdkTableModule} from '@angular/cdk/table';
+import {MdPaginatorModule} from '@angular/material';
+import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
-    CategoriesComponent,
+    // CategoriesComponent,
     ProductsEditComponent,
     UsersEditComponent,
-    // UsersHeaderComponent
+    // CategoryEditComponent,
+
   ],
   imports: [
     CommonModule,
     FormsModule,
     HttpModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+       // CdkTableModule,
+    // MdTableModule,
+    // MdPaginatorModule
+
   ],
   
   providers: [],

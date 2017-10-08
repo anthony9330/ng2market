@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,AfterContentInit } from '@angular/core';
 import { NgForm} from '@angular/forms';
 import {UsersService} from "../users.service";
 import {Response, RequestOptions} from '@angular/http';
@@ -13,7 +13,7 @@ import {LoaderService} from "../../shared/loader.service";
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit,AfterContentInit {
 
   categoriesList:Category;
   imgSrc='';
@@ -31,10 +31,10 @@ export class UserComponent implements OnInit {
     console.log("userpage on init");
 
     this.userService.getCategories().subscribe(
-      (response:Response)=>{
-        if(response.json().categories!=null && response.json().categories!=undefined){
-          this.categoriesList=response.json().categories;
-        }
+      (response:Category)=>{
+       
+          this.categoriesList=response;
+       
       },
       (error:Response)=>{
           console.log(error);
@@ -42,9 +42,17 @@ export class UserComponent implements OnInit {
 
       );
 
+
+console.log("categories after declaration");
+console.log(this.categoriesList);
    
     console.log("token from user component"+ this.userService.getToken());
 
+  }
+
+  ngAfterContentInit(){
+      console.log("after conyent Init");
+      console.log(this.categoriesList);
   }
 
 

@@ -57,8 +57,19 @@ export class UsersService{
 
   getCategories(){
     return this.http.get('http://ng2-market/public/api/categories',
-        {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})})
+        {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})}).map(
+        (response)=>{
+
+            if(response.json().categories!=null && response.json().categories!=undefined){
+               // console.log(response.json());
+                   return response.json().categories;
+                  }
+        })
   }
+
+
+ 
+
 
   getToken(){
     return this.authService.getToken();

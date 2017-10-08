@@ -1,15 +1,128 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewChecked,ViewChild } from '@angular/core';
+import {DataSource} from '@angular/cdk/collections';
+import {Observable} from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {MdPaginator} from '@angular/material';
+import {Category} from "../../category.model";
+import {UsersService} from "../../users.service";
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/map';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
+
+
+
+
+
+
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
+  categories:any;
+  displayedColumns = ['number', 'category_name', 'imagesPath', 'additionalFields'];
+  
+   exampleDatabase = new ExampleDatabase();
+   dataSource: ExampleDataSource | null;
+    @ViewChild(MdPaginator) paginator: MdPaginator;
 
-  ngOnInit() {
+
+  constructor(public userService:UsersService) { }
+
+  RowClick(id){
+    console.log("row clicked");
+    console.log(id);
   }
 
+  
+
+
+
+  ngOnInit() {
+
+    // this.getCategories();
+  this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
+
+    this.userService.getCategories().subscribe(
+      (categories)=>{
+        console.log(categories);
+
+        this.exampleDatabase.loadData(categories);
+      },
+      (error)=>{
+        console.log(error);
+      }
+      )
+    
+  }
+
+ 
+
+
+
+
+}
+
+
+
+
+
+
+export class ExampleDatabase {
+  /** Stream that emits whenever the data has been modified. */
+constructor() {
+   
+
+
+
+  }
+
+  dataChange = new BehaviorSubject<any>([]);
+  // dataChange=new Subject<any>();
+
+  get data(): any { 
+
+    return this.dataChange.value; 
+  }
+
+  loadData(data){
+    this.dataChange.next(data);
+  }
+
+
+
+
+
+
+}
+
+
+
+
+export class ExampleDataSource extends DataSource<any> {
+  constructor(private _exampleDatabase: ExampleDatabase, private _paginator: MdPaginator) {
+    super();
+  }
+
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<any> {
+    const displayDataChanges = [
+      this._exampleDatabase.dataChange,
+      this._paginator.page,
+    ];
+
+    return Observable.merge(...displayDataChanges).map(() => {
+      const data = this._exampleDatabase.data.slice();
+
+      // Grab the page's slice of data.
+      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
+      return data.splice(startIndex, this._paginator.pageSize);
+    });
+  }
+
+  disconnect() {}
 }
