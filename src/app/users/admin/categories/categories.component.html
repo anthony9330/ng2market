@@ -18,19 +18,7 @@
                 <md-header-cell *mdHeaderCellDef> Name </md-header-cell>
                 <md-cell *mdCellDef="let element"> {{element.category_name}} </md-cell>
               </ng-container>
-
-              <!-- Weight Column -->
-              <ng-container mdColumnDef="imagesPath">
-                <md-header-cell *mdHeaderCellDef> Weight </md-header-cell>
-                <md-cell *mdCellDef="let element"> {{element.progress}} </md-cell>
-              </ng-container>
-
-              <!-- Color Column -->
-              <ng-container mdColumnDef="additionalFields">
-                <md-header-cell *mdHeaderCellDef> Symbol </md-header-cell>
-                <md-cell *mdCellDef="let element"> {{element.additionalFields}} </md-cell>
-              </ng-container>
-
+              
               <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
               <md-row  (click)="RowClick(row)" *mdRowDef="let row; columns: displayedColumns; "></md-row>
             </md-table>
@@ -46,14 +34,9 @@
         
 
       
-       <select class="form-control" name="category" id="category" ngModel required>
-                  <option value=""></option>
-                  <option value="{{category.id}}" attr.data-creation="{{category.created_at}}" *ngFor="let category of categories">
-                    {{category.category_name | uppercase}}
-                  </option>
-      </select>
+     
 
-      <div *ngFor="let elem of categories">{{elem.id}}--{{elem.category_name}}   </div>
+  <button class="btn btn-default" (click)="AddCategory()">add new Category</button>
 
 
 

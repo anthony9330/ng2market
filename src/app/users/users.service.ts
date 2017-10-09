@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Http,Headers,Response} from '@angular/http';
 import { NgForm} from '@angular/forms';
-
 import {AuthService} from "../auth/auth.service";
-
+import {Category} from "./category.model";
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class UsersService{
@@ -13,6 +13,10 @@ export class UsersService{
              ){
 
     }
+
+ categories:Category[];
+ categoriesChanged=new Subject();
+
 
   submitProduct(form:NgForm,file:File){
     console.log(form.value);
@@ -43,7 +47,7 @@ export class UsersService{
 
 
     return this.http.post('http://ng2-market/public/api/product?token='+this.getToken(),
-   formData,
+       formData,
       {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})});
   }
 
@@ -55,16 +59,50 @@ export class UsersService{
     return this.http.post('http://ng2-market/public/api/imageload',input,{headers:new Headers({'Content-Type':undefined})});
   }
 
-  getCategories(){
+  getCategoriesServer(){
     return this.http.get('http://ng2-market/public/api/categories',
         {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})}).map(
         (response)=>{
 
             if(response.json().categories!=null && response.json().categories!=undefined){
                // console.log(response.json());
+
+               // this.categories=response.json().categories;
+               // this.categoriesChanged.next(this.categories.slice);
                    return response.json().categories;
                   }
         })
+        .subscribe(
+          (categories)=>{
+              // console.log(categories);
+              this.setCategories(categories);
+              return categories;
+        })
+  }
+
+  getCategory(id){
+    console.log("get category");
+     this.categoriesChanged.subscribe((categories:Category[])=>{
+       categories.forEach(function(categoryObj){
+            if(categoryObj['id']==id){
+              // console.log(categoryObj);
+              return  categoryObj;
+            }
+        
+       });
+     })
+  
+ 
+  }
+
+  setCategories(categories:Category[]){
+      this.categories=categories;
+      this.categoriesChanged.next(this.categories.slice());
+  }
+
+  getCategories(){
+    this.getCategoriesServer();
+    return this.categoriesChanged.asObservable();
   }
 
 

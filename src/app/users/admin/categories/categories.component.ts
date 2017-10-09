@@ -1,4 +1,4 @@
-import { Component, OnInit,AfterViewChecked,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {DataSource} from '@angular/cdk/collections';
 import {Observable} from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -8,7 +8,7 @@ import {UsersService} from "../../users.service";
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
-import { Subject } from 'rxjs/Subject';
+import {ActivatedRoute,Router} from "@angular/router";
 
 @Component({
   selector: 'app-categories',
@@ -18,24 +18,30 @@ import { Subject } from 'rxjs/Subject';
 
 
 
-
-
-
 export class CategoriesComponent implements OnInit {
 
   categories:any;
-  displayedColumns = ['number', 'category_name', 'imagesPath', 'additionalFields'];
+  displayedColumns = ['number', 'category_name'];
   
    exampleDatabase = new ExampleDatabase();
    dataSource: ExampleDataSource | null;
     @ViewChild(MdPaginator) paginator: MdPaginator;
 
 
-  constructor(public userService:UsersService) { }
+  constructor(public userService:UsersService,
+              private router:Router,
+              private route:ActivatedRoute) { }
 
-  RowClick(id){
+  RowClick(row){
     console.log("row clicked");
-    console.log(id);
+    console.log(row);
+    let id=row.id;
+    this.router.navigate([id],{relativeTo:this.route});
+  }
+
+
+  AddCategory(){
+    this.router.navigate(['new'],{relativeTo:this.route});
   }
 
   
@@ -43,65 +49,49 @@ export class CategoriesComponent implements OnInit {
 
 
   ngOnInit() {
-
     // this.getCategories();
   this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
 
-    this.userService.getCategories().subscribe(
-      (categories)=>{
-        console.log(categories);
+    // this.userService.getCategories().subscribe(
+    //   (categories)=>{
+    //     console.log(categories);
 
-        this.exampleDatabase.loadData(categories);
-      },
-      (error)=>{
-        console.log(error);
-      }
-      )
+
+    //     this.exampleDatabase.loadData(categories);
+       
+    //   },
+    //   (error)=>{
+    //     console.log(error);
+    //   }
+    //   )
+
+
+
+
+    this.userService.getCategories().subscribe((categories:Category[])=>{
+          this.exampleDatabase.loadData(categories);
+    });
     
+      
   }
-
- 
-
-
-
-
 }
-
-
-
 
 
 
 export class ExampleDatabase {
   /** Stream that emits whenever the data has been modified. */
-constructor() {
-   
-
-
-
-  }
+constructor() {  }
 
   dataChange = new BehaviorSubject<any>([]);
-  // dataChange=new Subject<any>();
-
   get data(): any { 
-
+ 
     return this.dataChange.value; 
   }
 
   loadData(data){
     this.dataChange.next(data);
   }
-
-
-
-
-
-
 }
-
-
-
 
 export class ExampleDataSource extends DataSource<any> {
   constructor(private _exampleDatabase: ExampleDatabase, private _paginator: MdPaginator) {

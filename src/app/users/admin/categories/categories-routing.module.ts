@@ -11,6 +11,7 @@ import {CategoryEditComponent} from "./category-edit/category-edit.component";
 const categoriesRoutes=[
   {path:'',component:CategoriesComponent,children:[
         {path:':id',component:CategoryEditComponent},
+        {path:'new',component:CategoryEditComponent},
      
        
    ]}
