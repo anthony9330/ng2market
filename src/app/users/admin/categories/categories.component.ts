@@ -33,8 +33,6 @@ export class CategoriesComponent implements OnInit {
               private route:ActivatedRoute) { }
 
   RowClick(row){
-    console.log("row clicked");
-    console.log(row);
     let id=row.id;
     this.router.navigate([id],{relativeTo:this.route});
   }

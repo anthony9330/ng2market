@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute,Params, Router, Data} from "@angular/router";
 import {FormGroup,FormControl,Validators} from "@angular/forms";
 import {UsersService} from "../../../users.service";
+import {Category} from "../../../category.model";
 
 
 @Component({
@@ -17,13 +18,17 @@ export class CategoryEditComponent implements OnInit {
   id:Number;
   editMode=false;
   categoryForm:FormGroup;
+  category:Category;
+
 
   ngOnInit() {
    this.route.params.subscribe((
      params:Params)=>{
-       console.log(params);
+       // console.log(params);
+
        this.id=+params['id'];
-       this.userService.getCategory(this.id);
+      
+     this.category=this.userService.getCategory(this.id);
        console.log("--end of get category");
 
    });

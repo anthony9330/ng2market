@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable,OnDestroy} from "@angular/core";
 import {Http,Headers,Response} from '@angular/http';
 import { NgForm} from '@angular/forms';
 import {AuthService} from "../auth/auth.service";
@@ -6,7 +6,7 @@ import {Category} from "./category.model";
 import {Subject} from "rxjs/Subject";
 
 @Injectable()
-export class UsersService{
+export class UsersService implements OnDestroy{
 
     constructor(private http:Http,
               private authService:AuthService,
@@ -82,18 +82,34 @@ export class UsersService{
 
   getCategory(id){
     console.log("get category");
-     this.categoriesChanged.subscribe((categories:Category[])=>{
-       categories.forEach(function(categoryObj){
-            if(categoryObj['id']==id){
-              // console.log(categoryObj);
-              return  categoryObj;
-            }
-        
+    console.log(id);
+    // console.log(this.categories);
+    let _categoryObj;
+    if(this.categories==undefined){
+   
+      this.getCategories().subscribe((categories:Category[])=>{this.categories=categories})
+    }
+
+       this.categories.forEach(function(categoryObj){
+           if(categoryObj['id']==id){
+             // console.log(categoryObj);
+             _categoryObj=categoryObj;
+             return _categoryObj;
+           }
        });
-     })
-  
+
+       return _categoryObj;
  
+    
+     
+   }
+
+
+
+  ngOnDestroy(){
+    console.log("onDestroy userService Called");
   }
+
 
   setCategories(categories:Category[]){
       this.categories=categories;
