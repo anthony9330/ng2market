@@ -1,13 +1,27 @@
 <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-          <label for="name">Name</label>
-          <input 
-          type="text" 
-          class="form-control" 
-          id="category_name"
-          formControlName="category_name">
-        </div>
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Category name"  formControlName="category_name">
+                  <md-error *ngIf="categoryForm.controls.category_name.hasError('required')">
+                    Category name is <strong>required</strong>
+                  </md-error>
+          </md-form-field>
+     </div>
+      <!-- <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Category name"  formControlName="imagesPath">
+                 
+          </md-form-field>
+     </div> -->
+      <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="additionl fileds"  formControlName="additionalFields">
+          </md-form-field>
+     </div>
 
-       {{category.category_name}}
+
+
+
+
   
 </form>

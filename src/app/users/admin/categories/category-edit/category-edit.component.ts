@@ -18,22 +18,22 @@ export class CategoryEditComponent implements OnInit {
   id:Number;
   editMode=false;
   categoryForm:FormGroup;
-  category:Category;
+  // category:Category;
 
 
   ngOnInit() {
    this.route.params.subscribe((
      params:Params)=>{
-       // console.log(params);
+       this.id=+params['id'];    
+       if(this.id){
+         this.editMode=true;
 
-       this.id=+params['id'];
-      
-     this.category=this.userService.getCategory(this.id);
-       console.log("--end of get category");
+       }
+       this.initForm();
 
    });
 
-   this.initForm();
+   
 
 
     
@@ -41,10 +41,38 @@ export class CategoryEditComponent implements OnInit {
 
   initForm(){
 
-    this.categoryForm=new FormGroup({
-        'category_name':new FormControl('',Validators.required)
-    });
-  }
+    if(this.editMode){
+        const category =this.userService.getCategory(this.id);
+      if(category){
+      
+        this.categoryForm=new FormGroup({
+              'category_name':new FormControl(category.category_name,Validators.required),
+              'additionalFields':new FormControl(category.additionalFields),
+              // 'imagesPath':new FormControl(category.imagesPath),
+
+          });
+        }
+
+        console.log(this.categoryForm);
+      }else {
+          
+
+        let category_name=' '
+        let additionalFields='';
+        let imagesPath='';
+
+        this.categoryForm= new FormGroup({
+           'category_name':new FormControl(category_name,Validators.required),
+            'additionalFields':new FormControl(additionalFields),
+            // 'imagesPath':new FormControl(imagesPath),
+        })
+      }
+
+
+
+    }
+    
+    
 
 
 

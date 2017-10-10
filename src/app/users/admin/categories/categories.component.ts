@@ -48,25 +48,12 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     // this.getCategories();
+    console.log("categories initilized");
   this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
 
-    // this.userService.getCategories().subscribe(
-    //   (categories)=>{
-    //     console.log(categories);
-
-
-    //     this.exampleDatabase.loadData(categories);
-       
-    //   },
-    //   (error)=>{
-    //     console.log(error);
-    //   }
-    //   )
-
-
-
-
     this.userService.getCategories().subscribe((categories:Category[])=>{
+      console.log("subscribe to getCategories() from categories comp");
+      console.log(categories);
           this.exampleDatabase.loadData(categories);
     });
     

@@ -65,10 +65,7 @@ export class UsersService implements OnDestroy{
         (response)=>{
 
             if(response.json().categories!=null && response.json().categories!=undefined){
-               // console.log(response.json());
-
-               // this.categories=response.json().categories;
-               // this.categoriesChanged.next(this.categories.slice);
+             
                    return response.json().categories;
                   }
         })
@@ -81,24 +78,26 @@ export class UsersService implements OnDestroy{
   }
 
   getCategory(id){
-    console.log("get category");
-    console.log(id);
-    // console.log(this.categories);
+ 
     let _categoryObj;
-    if(this.categories==undefined){
-   
-      this.getCategories().subscribe((categories:Category[])=>{this.categories=categories})
-    }
+ 
+      if(this.categories){
 
-       this.categories.forEach(function(categoryObj){
-           if(categoryObj['id']==id){
-             // console.log(categoryObj);
-             _categoryObj=categoryObj;
-             return _categoryObj;
-           }
-       });
+         this.categories.forEach(function(categoryObj){
+               if(categoryObj['id']==id){
+                 console.log(categoryObj);
+                 _categoryObj=categoryObj;
+              
+               }
+           });
+        return _categoryObj;
 
-       return _categoryObj;
+      }
+      else {
+        return this.categoriesChanged.asObservable();
+      }
+
+    
  
     
      

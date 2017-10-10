@@ -9,7 +9,7 @@ import {CategoryEditComponent} from "./category-edit/category-edit.component";
 
 import { MdTableModule } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
-import {MdPaginatorModule} from '@angular/material';
+import {MdPaginatorModule,MatInputModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import {MdPaginatorModule} from '@angular/material';
     CategoriesRoutingModule,
     MdTableModule,
     CdkTableModule,
-    MdPaginatorModule
+    MdPaginatorModule,
+    MatInputModule
   
 
   ],
