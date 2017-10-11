@@ -77,7 +77,7 @@ export class UsersService implements OnDestroy{
         })
   }
 
-  getCategory(id){
+  getCategory(id):any{
  
     let _categoryObj;
  

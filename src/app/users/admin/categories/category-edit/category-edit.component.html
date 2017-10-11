@@ -13,11 +13,35 @@
                  
           </md-form-field>
      </div> -->
-      <div class="form-group">
+     <!-- 
           <md-form-field class="example-full-width">
             <input mdInput placeholder="additionl fileds"  formControlName="additionalFields">
           </md-form-field>
-     </div>
+     -->
+      <hr>
+
+      <div formArrayName="additionalFields">
+           
+             <div class="form-group"  *ngFor="let field of categoryForm.get('additionalFields').controls;let i=index">
+                  <md-form-field class="example-full-width">
+                    <input mdInput placeholder="additionl fileds"  [formControlName]="i">
+                  </md-form-field>
+              </div>
+
+               <button class="btn btn-default" type="button" (click)="AddField()">Add field</button>
+               <div class="right">
+                  <button 
+                      class="btn btn-primary" 
+                      type="submit" 
+                      (click)="onSubmit"
+                      [disabled]="!categoryForm.valid"
+                      >Submit
+                    </button>
+                </div>
+      </div>
+ 
+
+
 
 
 

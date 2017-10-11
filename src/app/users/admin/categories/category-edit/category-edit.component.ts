@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute,Params, Router, Data} from "@angular/router";
-import {FormGroup,FormControl,Validators} from "@angular/forms";
+import {FormGroup,FormControl,Validators,FormArray} from "@angular/forms";
 import {UsersService} from "../../../users.service";
 import {Category} from "../../../category.model";
 
@@ -47,7 +47,8 @@ export class CategoryEditComponent implements OnInit {
       
         this.categoryForm=new FormGroup({
               'category_name':new FormControl(category.category_name,Validators.required),
-              'additionalFields':new FormControl(category.additionalFields),
+              'additionalFields':new FormArray([ new FormControl(category.additionalFields)]),
+              // 'additionalField':new FormArray([]),
               // 'imagesPath':new FormControl(category.imagesPath),
 
           });
@@ -57,14 +58,14 @@ export class CategoryEditComponent implements OnInit {
       }else {
           
 
-        let category_name=' '
-        let additionalFields='';
+        let category_name=null
+        let additionalFields=null;
         let imagesPath='';
 
         this.categoryForm= new FormGroup({
            'category_name':new FormControl(category_name,Validators.required),
-            'additionalFields':new FormControl(additionalFields),
-            // 'imagesPath':new FormControl(imagesPath),
+            'additionalFields':new FormArray([]),
+         
         })
       }
 
@@ -72,12 +73,18 @@ export class CategoryEditComponent implements OnInit {
 
     }
     
+
+    AddField(){
+      const field=new FormControl(null,Validators.required);
+      (<FormArray>this.categoryForm.get("additionalFields")).push(field);
+     
+    }
     
 
 
 
   onSubmit(){
-
+     console.log(this.categoryForm);
   }
 
 
