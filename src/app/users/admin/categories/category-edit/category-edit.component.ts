@@ -84,7 +84,17 @@ export class CategoryEditComponent implements OnInit {
 
 
   onSubmit(){
-     console.log(this.categoryForm);
+     // console.log(this.categoryForm);
+     
+     // this.userService.submitCategory(this.categoryForm.value);
+
+     this.userService.submitCategory(this.categoryForm.value).subscribe(
+       (response)=>{
+         console.log(response);
+       },
+       (error)=>{
+         console.log(error);
+       })
   }
 
 

@@ -120,6 +120,19 @@ export class UsersService implements OnDestroy{
     return this.categoriesChanged.asObservable();
   }
 
+  submitCategory(category:Category){
+      // console.log(category);`
+      let category_name=category['category_name'];
+      let additionalFields= category['additionalFields'];
+
+      return this.http.post('http://ng2-market/public/api/categories?token='+this.getToken(),
+        {category_name:category_name,
+          additionalFields: JSON.stringify(additionalFields)},
+        {headers:new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'})}).map((response)=>{
+            return response.json().categories;
+        });
+  }
+
 
  
 
