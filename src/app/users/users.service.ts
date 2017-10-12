@@ -18,6 +18,7 @@ export class UsersService implements OnDestroy{
  categoriesChanged=new Subject();
 
 
+
   submitProduct(form:NgForm,file:File){
     console.log(form.value);
     var title=form.value.title;
@@ -120,17 +121,40 @@ export class UsersService implements OnDestroy{
     return this.categoriesChanged.asObservable();
   }
 
-  submitCategory(category:Category){
+  submitCategory(category:Category,id:number){
       // console.log(category);`
       let category_name=category['category_name'];
       let additionalFields= category['additionalFields'];
+      if(id){
+        console.log("edit category");
+         const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
+         return this.http.post('http://ng2-market/public/api/category/'+id+'?token='+this.getToken(),
+              {category_name:category_name,
+                additionalFields: JSON.stringify(additionalFields)},
+              {headers:headers}).map((response)=>{
+                  return response.json().category;
+              });
 
-      return this.http.post('http://ng2-market/public/api/categories?token='+this.getToken(),
+      }
+      else{
+
+        return this.http.post('http://ng2-market/public/api/category?token='+this.getToken(),
         {category_name:category_name,
           additionalFields: JSON.stringify(additionalFields)},
         {headers:new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'})}).map((response)=>{
-            return response.json().categories;
+            return response.json().category;
         });
+      }
+
+      
+  }
+
+  deleteCategory(id){
+     
+      const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
+    return this.http.post('http://ng2-market/public/api/delete_cat/'+id+'?token='+this.getToken(),
+      {},
+      {headers:headers}).map((response)=>{return response.json().$category});
   }
 
 

@@ -15,7 +15,7 @@ export class CategoryEditComponent implements OnInit {
   constructor(private route:ActivatedRoute,
               private router:Router,
               private userService:UsersService ) { }
-  id:Number;
+  id:number;
   editMode=false;
   categoryForm:FormGroup;
   // category:Category;
@@ -45,9 +45,24 @@ export class CategoryEditComponent implements OnInit {
         const category =this.userService.getCategory(this.id);
       if(category){
       
+      let additionalFields=category.additionalFields;
+       var addFieldsArr= new FormArray([]);
+        if(additionalFields){
+          console.log(additionalFields);
+            additionalFields=JSON.parse(additionalFields);
+
+            
+           
+            additionalFields.forEach(function(field){
+                 addFieldsArr.push(new FormControl(field));
+                   console.log(field);
+            });
+          
+        }
         this.categoryForm=new FormGroup({
               'category_name':new FormControl(category.category_name,Validators.required),
-              'additionalFields':new FormArray([ new FormControl(category.additionalFields)]),
+                // 'id':'',
+              'additionalFields':addFieldsArr,
               // 'additionalField':new FormArray([]),
               // 'imagesPath':new FormControl(category.imagesPath),
 
@@ -84,17 +99,28 @@ export class CategoryEditComponent implements OnInit {
 
 
   onSubmit(){
-     // console.log(this.categoryForm);
+     console.log(this.categoryForm.value+" edit mode"+this.id);
      
      // this.userService.submitCategory(this.categoryForm.value);
 
-     this.userService.submitCategory(this.categoryForm.value).subscribe(
+     this.userService.submitCategory(this.categoryForm.value,this.id).subscribe(
        (response)=>{
          console.log(response);
+       this.userService.getCategories();
        },
        (error)=>{
          console.log(error);
-       })
+       });
+  }
+
+  onDelete(){
+    this.userService.deleteCategory(this.id).subscribe( (response)=>{
+         console.log(response);
+         this.userService.getCategories();
+       },
+       (error)=>{
+         console.log(error);
+       });
   }
 
 

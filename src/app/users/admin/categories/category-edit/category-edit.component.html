@@ -1,4 +1,5 @@
 <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+   
     <div class="form-group">
           <md-form-field class="example-full-width">
             <input mdInput placeholder="Category name"  formControlName="category_name">
@@ -28,16 +29,46 @@
                   </md-form-field>
               </div>
 
-               <button class="btn btn-default" type="button" (click)="AddField()">Add field</button>
-               <div class="right">
-                  <button 
-                      class="btn btn-primary" 
-                      type="submit" 
-                      (click)="onSubmit"
-                      [disabled]="!categoryForm.valid"
-                      >Submit
-                    </button>
+              <div class="row">
+                <div class="col-md-3">
+                      <button 
+                       class="btn btn-default" 
+                       type="button" 
+                       (click)="AddField()">
+                        Add field
+                      </button>
                 </div>
+                <div class="col-md-3">
+                  
+                    <button 
+                        class="btn btn-danger" 
+                        type="button" 
+                        (click)="onDelete()"
+                       
+                        >Delete
+                      </button>
+                
+                </div>
+                <div class="col-md-3">
+                 
+                    <button 
+                        class="btn btn-primary" 
+                        type="submit" 
+                        (click)="onSubmit"
+                        [disabled]="!categoryForm.valid"
+                        >Submit
+                      </button>
+                 
+                </div>
+                  
+
+                 
+
+               
+                
+              </div>
+
+             
       </div>
  
 
