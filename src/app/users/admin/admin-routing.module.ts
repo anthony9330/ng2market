@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {AdminComponent} from "./admin.component";
 
 import { CategoriesComponent } from './categories/categories.component';
-import { ProductsEditComponent } from './products-edit/products-edit.component';
+
 import { UsersEditComponent } from './users-edit/users-edit.component';
 import {CategoryEditComponent} from "./categories/category-edit/category-edit.component";
 // import {CategoriesModule} from './categories/categories.module';
@@ -11,7 +11,8 @@ import {CategoryEditComponent} from "./categories/category-edit/category-edit.co
 
 const adminRoutes=[
   {path:'',component:AdminComponent,children:[
-        {path:'products-edit',component:ProductsEditComponent},
+        // {path:'products-edit',component:ProductsEditComponent},
+        {path:'products-edit',loadChildren:'./products-edit/products-edit.module#ProductsModule'},
        
 
         // {path:'categories-edit',component:CategoriesComponent},

@@ -4,6 +4,7 @@ import { NgForm} from '@angular/forms';
 import {AuthService} from "../auth/auth.service";
 import {Category} from "./category.model";
 import {Subject} from "rxjs/Subject";
+import {Product} from "../products/product.model";
 
 @Injectable()
 export class UsersService implements OnDestroy{
@@ -16,6 +17,7 @@ export class UsersService implements OnDestroy{
 
  categories:Category[];
  categoriesChanged=new Subject();
+ products:Product[];
 
 
 
@@ -156,6 +158,30 @@ export class UsersService implements OnDestroy{
       {},
       {headers:headers}).map((response)=>{return response.json().$category});
   }
+
+  getProducts(){
+      const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
+    return this.http.get('http://ng2-market/public/api/products',{headers:headers}).map((response)=>{
+        this.products=response.json().products;
+      return response.json().products
+    })
+  }
+
+  getProduct(id:number){
+    let products= this.products;
+    products.forEach(function(item){
+        console.log(item);
+    });
+  }
+
+  updateProduct(id:number){
+      const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
+      return this.http.post('http://ng2-market/public/api/product/'+id+'?tpken='+this.getToken(),
+        {},
+        {headers:headers}).map((response)=>{response.json()});
+  }
+
+
 
 
  

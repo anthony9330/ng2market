@@ -30,18 +30,18 @@ export class UserComponent implements OnInit,AfterContentInit {
 
     console.log("userpage on init");
 
-    // this.userService.getCategories().subscribe(
-    //   (response:Category)=>{
+    this.userService.getCategories().subscribe(
+      (response:Category)=>{
        
-    //       this.categoriesList=response;
+          this.categoriesList=response;
        
-    //   },
-    //   (error:Response)=>{
-    //       console.log(error);
-    //   }
+      },
+      (error:Response)=>{
+          console.log(error);
+      }
 
-    //   );
-    // this.userService.getCategories();
+      );
+    this.userService.getCategories();
 
 
 console.log("categories after declaration");

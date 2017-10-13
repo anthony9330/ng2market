@@ -1,0 +1,13 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+   
+    <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Category name"  formControlName="title">
+                  <md-error *ngIf="productForm.controls.title.hasError('required')">
+                    Category name is <strong>required</strong>
+                  </md-error>
+          </md-form-field>
+     </div>
+    
+ 
+</form>

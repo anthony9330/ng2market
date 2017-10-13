@@ -8,18 +8,20 @@ import { AdminComponent } from './admin.component';
 import {AdminRoutingModule} from "./admin-routing.module";
 import {SharedModule} from "../../shared/shared.module";
 import { CategoriesComponent } from './categories/categories.component';
-import { ProductsEditComponent } from './products-edit/products-edit.component';
+// import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { UsersEditComponent } from './users-edit/users-edit.component';
-import { MdTableModule } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
-import {MdPaginatorModule} from '@angular/material';
 import { CategoryEditComponent } from './categories/category-edit/category-edit.component';
+
+// import { MdTableModule } from '@angular/material';
+// import {CdkTableModule} from '@angular/cdk/table';
+// import {MdPaginatorModule,MatInputModule} from '@angular/material';
+
 
 @NgModule({
   declarations: [
     AdminComponent,
     // CategoriesComponent,
-    ProductsEditComponent,
+    // ProductsEditComponent,
     UsersEditComponent,
     // CategoryEditComponent,
 
@@ -30,9 +32,11 @@ import { CategoryEditComponent } from './categories/category-edit/category-edit.
     HttpModule,
     AdminRoutingModule,
     SharedModule,
-       // CdkTableModule,
+    //    CdkTableModule,
     // MdTableModule,
-    // MdPaginatorModule
+    // MdPaginatorModule,
+   
+    // MatInputModule
 
   ],
   
