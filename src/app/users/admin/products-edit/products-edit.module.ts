@@ -10,7 +10,7 @@ import {ProductEditSingleComponent} from "./product-edit-single/product-edit-sin
 
 import { MdTableModule } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
-import {MdPaginatorModule,MatInputModule} from '@angular/material';
+import {MdPaginatorModule,MatInputModule,MdSelectModule} from '@angular/material';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import {MdPaginatorModule,MatInputModule} from '@angular/material';
     MdTableModule,
     CdkTableModule,
     MdPaginatorModule,
-    MatInputModule
+    MatInputModule,
+    MdSelectModule
   
 
   ],

@@ -1,13 +1,99 @@
 <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-   
-    <div class="form-group">
+  
+    <div *ngIf="imagesPath">
+
+      <!-- <img [src]="imagesPath" alt="" class="img-responsive">  -->
+<!-- 
+      <div *ngFor="let path of imagesPath ">
+      </div> 
+ -->
+      
+    </div>
+
+       <div class="form-group">
           <md-form-field class="example-full-width">
-            <input mdInput placeholder="Category name"  formControlName="title">
+            <input mdInput placeholder="Product title"  formControlName="title">
                   <md-error *ngIf="productForm.controls.title.hasError('required')">
-                    Category name is <strong>required</strong>
+                    Product name is <strong>required</strong>
                   </md-error>
           </md-form-field>
-     </div>
+        </div>
+
+        <div class="form-group">
+            <md-select placeholder="Categories" formControlName="categories">
+              <md-option *ngFor="let category of categories" [value]="category.id">
+                {{category.category_name}}
+              </md-option>
+            </md-select>
+        </div> 
+ 
+
+       
+
+
+
+         <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Price"  formControlName="price">
+                  <md-error *ngIf="productForm.controls.price.hasError('required')">
+                    Price name is <strong>required</strong>
+                  </md-error>
+          </md-form-field>
+        </div>
+
+
+
+         <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Description"  formControlName="description">
+                  <md-error *ngIf="productForm.controls.description.hasError('required')">
+                    Description name is <strong>required</strong>
+                  </md-error>
+          </md-form-field>
+        </div>
+
+
+        <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Location"  formControlName="location">
+                  <md-error *ngIf="productForm.controls.location.hasError('required')">
+                    Location name is <strong>required</strong>
+                  </md-error>
+          </md-form-field>
+        </div>
+
+        
+
+
+         <div class="form-group">
+          <md-form-field class="example-full-width">
+            <input mdInput placeholder="Additional Fields"  formControlName="additionalFields">
+              
+          </md-form-field>
+        </div>
+
+        
+        <div class="form-group">
+          <md-select placeholder="Approved" formControlName="approved">
+            <md-option *ngFor="let approve of [0,1]" [value]="approve">
+              {{approve}}
+            </md-option>
+          </md-select>
+        </div> 
+
+
+        
+
+
+<!-- 
+        <div class="form-group">
+        <md-select placeholder="Favorite food">
+          <md-option *ngFor="let food of foods" [value]="food.value">
+            {{ food.viewValue }}
+          </md-option>
+        </md-select>
+      </div> -->
+   
     
  
 </form>

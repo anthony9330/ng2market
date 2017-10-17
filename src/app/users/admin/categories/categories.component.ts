@@ -53,8 +53,15 @@ export class CategoriesComponent implements OnInit {
 
     this.userService.getCategories().subscribe((categories:Category[])=>{
       console.log("subscribe to getCategories() from categories comp");
-      console.log(categories);
-          this.exampleDatabase.loadData(categories);
+      // console.log(categories);
+         this.exampleDatabase.loadData(categories);
+         this.userService.categoriesChanged.subscribe((categor_changed)=>{
+               console.log("categories for table data");
+               console.log(categor_changed);
+                this.exampleDatabase.loadData(categor_changed);
+         });
+     
+         
     });
     
       

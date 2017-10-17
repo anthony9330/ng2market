@@ -1,6 +1,7 @@
 export class Product {
   id:number;
   title:string;
+  category:any;
   categoryID:number;
   userID:number;    
   description:string;

@@ -62,47 +62,65 @@ export class UsersService implements OnDestroy{
     return this.http.post('http://ng2-market/public/api/imageload',input,{headers:new Headers({'Content-Type':undefined})});
   }
 
-  getCategoriesServer(){
+  getCategories(){
     return this.http.get('http://ng2-market/public/api/categories',
         {headers:new Headers({'X-Requested-With':'XMLHttpRequest'})}).map(
         (response)=>{
 
             if(response.json().categories!=null && response.json().categories!=undefined){
-             
+                   this.categories=response.json().categories;
+                   // this.catChanged();
                    return response.json().categories;
                   }
         })
-        .subscribe(
-          (categories)=>{
-              // console.log(categories);
-              this.setCategories(categories);
-              return categories;
-        })
+  }
+
+  catChanged(category:Category,state:string){
+   
+    if(state=='add'){
+      this.categories.push(category);
+    }
+    else if(state=="upd"){
+      this.categories.forEach(function(category_obj,i,arr){
+            if(category_obj['id']==category['id']){
+            arr[i]=category;
+            
+            }
+         
+      });
+
+      // for(var i=0;i<this.categories.length;i++){
+      //     if(this.categories[i]['id']==category['id']){
+      //       this.categories[i]=category;
+      //     }
+
+      // }
+    }
+    else if(state="del"){
+
+      this.categories.forEach(function(category_obj,i,arr){
+            if(category_obj['id']==category['id']){
+            arr.splice(i,1);
+            }
+          });
+
+    }
+        
+     
+      this.categoriesChanged.next(this.categories.slice());
   }
 
   getCategory(id):any{
  
     let _categoryObj;
- 
-      if(this.categories){
-
          this.categories.forEach(function(categoryObj){
                if(categoryObj['id']==id){
-                 console.log(categoryObj);
+                
                  _categoryObj=categoryObj;
               
                }
            });
-        return _categoryObj;
-
-      }
-      else {
-        return this.categoriesChanged.asObservable();
-      }
-
-    
- 
-    
+        return _categoryObj;     
      
    }
 
@@ -113,15 +131,8 @@ export class UsersService implements OnDestroy{
   }
 
 
-  setCategories(categories:Category[]){
-      this.categories=categories;
-      this.categoriesChanged.next(this.categories.slice());
-  }
 
-  getCategories(){
-    this.getCategoriesServer();
-    return this.categoriesChanged.asObservable();
-  }
+  
 
   submitCategory(category:Category,id:number){
       // console.log(category);`
@@ -169,9 +180,15 @@ export class UsersService implements OnDestroy{
 
   getProduct(id:number){
     let products= this.products;
-    products.forEach(function(item){
-        console.log(item);
+    let product_;
+    products.forEach(function(product){
+        // console.log(product);
+        if(product['id']==id){
+          product_=product;
+          return product;
+        }
     });
+    return product_;
   }
 
   updateProduct(id:number){

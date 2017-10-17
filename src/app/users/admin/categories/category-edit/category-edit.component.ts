@@ -19,17 +19,28 @@ export class CategoryEditComponent implements OnInit {
   id:number;
   editMode=false;
   categoryForm:FormGroup;
-  // category:Category;
+  category:Category;
 
 
   ngOnInit() {
    this.route.params.subscribe((
      params:Params)=>{
        this.id=+params['id'];    
-       if(this.id){
-         this.editMode=true;
 
-       }
+
+        if(this.id){
+           this.editMode=true;
+           this.userService.getCategories().subscribe(
+               (categories)=>{
+                 console.log(categories);
+              
+                 this.category=this.userService.getCategory(this.id);
+                 this.setForm();
+
+
+             });
+         }
+       
        this.initForm();
 
    });
@@ -40,54 +51,109 @@ export class CategoryEditComponent implements OnInit {
     
   }
 
-  initForm(){
+  // initForm(){
 
-    if(this.editMode){
-        const category =this.userService.getCategory(this.id);
-      if(category){
+  //   if(this.editMode){
+  //       const category =this.userService.getCategory(this.id);
+  //     if(category){
       
-      let additionalFields=category.additionalFields;
-       var addFieldsArr= new FormArray([]);
-        if(additionalFields){
-          console.log(additionalFields);
-            additionalFields=JSON.parse(additionalFields);
+  //     let additionalFields=category.additionalFields;
+  //      var addFieldsArr= new FormArray([]);
+  //       if(additionalFields){
+  //         console.log(additionalFields);
+  //           additionalFields=JSON.parse(additionalFields);
 
             
            
-            additionalFields.forEach(function(field){
-                 addFieldsArr.push(new FormControl(field));
-                   console.log(field);
-            });
+  //           additionalFields.forEach(function(field){
+  //                addFieldsArr.push(new FormControl(field));
+  //                  console.log(field);
+  //           });
           
-        }
+  //       }
+  //       this.categoryForm=new FormGroup({
+  //             'category_name':new FormControl(category.category_name,Validators.required),
+  //               // 'id':'',
+  //             'additionalFields':addFieldsArr,
+  //             // 'additionalField':new FormArray([]),
+  //             // 'imagesPath':new FormControl(category.imagesPath),
+
+  //         });
+  //       }
+
+  //       console.log(this.categoryForm);
+  //     }else {
+        
+
+  //       let category_name=null
+  //       let additionalFields=null;
+  //       let imagesPath='';
+       
+        
+  //       this.categoryForm= new FormGroup({
+  //          'category_name':new FormControl(category_name,Validators.required),
+  //           'additionalFields':new FormArray([]),
+         
+  //       });
+
+  //         this.categoryForm.controls.category_name.setValue(" ");
+  //     }
+
+
+
+  //   }
+
+
+
+    initForm(){
         this.categoryForm=new FormGroup({
-              'category_name':new FormControl(category.category_name,Validators.required),
+              'category_name':new FormControl('',Validators.required),
                 // 'id':'',
-              'additionalFields':addFieldsArr,
+              'additionalFields':new FormArray([]),
               // 'additionalField':new FormArray([]),
               // 'imagesPath':new FormControl(category.imagesPath),
 
           });
-        }
+    
 
-        console.log(this.categoryForm);
-      }else {
-        
+    }
 
-        let category_name=null
-        let additionalFields=null;
-        let imagesPath='';
-       
-        
-        this.categoryForm= new FormGroup({
-           'category_name':new FormControl(category_name,Validators.required),
-            'additionalFields':new FormArray([]),
-         
-        });
 
-          this.categoryForm.controls.category_name.setValue(" ");
-      }
+//   ПРИДУМАТИ КРАЩИЙ СПОСІБ НІЖ ІНІЦІАЛІЗАЦІЯ ДВОХ ФОРМ INIT AND SETFORM
+//   І ТАК САМО ДВА SUBSCRIBE НА CATEGORIES.COMPONENT AND CATEGORIES-EDIT.COMPONENT
+//   SUBSCRIBE INSIDE SUBSCRIBE IN CATEGORIES.COMPONENT.TS ЧИ ПРАВИЛЬНО ВЗАГАЛІ
 
+
+    setForm(){
+
+      if(this.editMode){
+          let  additionalFields=this.category.additionalFields;
+
+           var addFieldsArr= new FormArray([]);
+            if(additionalFields){
+              console.log(additionalFields);
+                let additionalFieldsArr=JSON.parse(additionalFields);           
+                additionalFieldsArr.forEach(function(field){
+                     addFieldsArr.push(new FormControl(field));
+                       console.log(field);
+                });
+            }
+           
+
+             this.categoryForm= new FormGroup({
+                'category_name':new FormControl(this.category.category_name,Validators.required),
+                 'additionalFields':addFieldsArr,
+             })
+          
+            console.log( );
+
+          }
+          else {
+            this.categoryForm= new FormGroup({
+                'category_name':new FormControl('',Validators.required),
+                 'additionalFields':new FormArray([]),
+             })
+          }
 
 
     }
@@ -102,6 +168,10 @@ export class CategoryEditComponent implements OnInit {
 
 
 
+
+
+
+
   onSubmit(){
      console.log(this.categoryForm.value+" edit mode"+this.id);
      
@@ -109,8 +179,16 @@ export class CategoryEditComponent implements OnInit {
 
      this.userService.submitCategory(this.categoryForm.value,this.id).subscribe(
        (response)=>{
-         console.log(response);
-       this.userService.getCategories();
+        // response has a category object that was added
+         let catForm=response;
+         if(this.id){
+              this.userService.catChanged(catForm,'upd');
+         }
+         else {
+            this.userService.catChanged(catForm,'add');
+         }
+      
+         
        },
        (error)=>{
          console.log(error);
@@ -119,8 +197,11 @@ export class CategoryEditComponent implements OnInit {
 
   onDelete(){
     this.userService.deleteCategory(this.id).subscribe( (response)=>{
-         console.log(response);
-         this.userService.getCategories();
+      
+         let category_del= new Category;
+         category_del.id=this.id;
+         
+         this.userService.catChanged(category_del,'del');
        },
        (error)=>{
          console.log(error);
