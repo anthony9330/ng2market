@@ -1,6 +1,6 @@
 import {Injectable,OnDestroy} from "@angular/core";
 import {Http,Headers,Response} from '@angular/http';
-import { NgForm} from '@angular/forms';
+import { NgForm,FormBuilder,FormGroup} from '@angular/forms';
 import {AuthService} from "../auth/auth.service";
 import {Category} from "./category.model";
 import {Subject} from "rxjs/Subject";
@@ -17,6 +17,7 @@ export class UsersService implements OnDestroy{
 
  categories:Category[];
  categoriesChanged=new Subject();
+ productsChanged= new Subject();
  products:Product[];
 
 
@@ -76,6 +77,8 @@ export class UsersService implements OnDestroy{
   }
 
   catChanged(category:Category,state:string){
+
+    console.log(category);
    
     if(state=='add'){
       this.categories.push(category);
@@ -165,7 +168,7 @@ export class UsersService implements OnDestroy{
   deleteCategory(id){
      
       const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
-    return this.http.post('http://ng2-market/public/api/delete_cat/'+id+'?token='+this.getToken(),
+      return this.http.post('http://ng2-market/public/api/delete_cat/'+id+'?token='+this.getToken(),
       {},
       {headers:headers}).map((response)=>{return response.json().$category});
   }
@@ -191,13 +194,70 @@ export class UsersService implements OnDestroy{
     return product_;
   }
 
-  updateProduct(id:number){
+  updateProduct(form,id:number){
+
+    console.log(form.value);
+    let formVal=JSON.stringify(form.value);
+    console.log(formVal);
+    let title=form.value.title;
+    let categoryID=form.value.categories;
+    let description=form.value.description;
+    let location=form.value.location;
+    let price=form.value.price;
+    let imagesPath=form.value.imagesPath;
+    let additionalFields=JSON.stringify(form.value.additionalFields);
+    let approved=form.value.approved;
+
+
       const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
-      return this.http.post('http://ng2-market/public/api/product/'+id+'?tpken='+this.getToken(),
-        {},
-        {headers:headers}).map((response)=>{response.json()});
+
+      return this.http.post('http://ng2-market/public/api/product/'+id+'?token='+this.getToken(),
+        {title:title,
+          categoryID:categoryID,
+          description:description,
+          location:location,
+          price:price,
+          imagesPath:imagesPath,
+          additionalFields:additionalFields,
+          approved:approved},
+        {headers:headers}).map((response)=>{
+          return response.json();
+        });
+
   }
 
+
+deleteProduct(id:number){
+  console.log(id);
+   const headers =new Headers({'X-Requested-With':'XMLHttpRequest','Content-Type':'application/json'});
+
+  return this.http.post('http://ng2-market/public/api/del_product/'+id+'?token='+this.getToken(),
+    {},
+    {headers:headers})
+  .map((response)=>{
+    return response.json();
+  });
+}
+
+    prodChanged(product:Product,text:string){
+
+      if(text=='del'){
+        
+
+          this.products.forEach((product_,i,arr)=>{
+           
+              if(product_['id']==product['product']['id']){
+                
+                arr.splice(i,1);
+              }
+          });
+
+          this.productsChanged.next(this.products.slice());
+
+     
+      }
+
+    }
 
 
 

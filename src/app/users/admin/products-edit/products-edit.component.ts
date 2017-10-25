@@ -49,6 +49,10 @@ export class ProductsEditComponent implements OnInit {
     this.userService.getProducts().subscribe((products:Product[])=>{
       // console.log(products);
       this.exampleDatabase.loadData(products);
+
+        this.userService.productsChanged.subscribe((products_:Product[])=>{
+                 this.exampleDatabase.loadData(products_);
+        });
     });
     
       

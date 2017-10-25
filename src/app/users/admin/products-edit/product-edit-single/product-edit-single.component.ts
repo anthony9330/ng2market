@@ -21,8 +21,10 @@ export class ProductEditSingleComponent implements OnInit {
   productForm:FormGroup;
   product:Product;
   categories:Category[];
-  catChngd:EventEmitter<any>= new EventEmitter();
-  catFields;
+  catFields:string[];
+  catPrdFieldsObj={};
+  catPrdFieldsArr=[];
+
  
 
   ngOnInit() {
@@ -35,39 +37,20 @@ export class ProductEditSingleComponent implements OnInit {
 
           this.userService.getCategories().subscribe((categories)=>{
               this.categories=categories;
-              console.log(categories);
+              // console.log(categories);
                this.product=this.userService.getProduct(this.id);
                this.getAddFields(this.product.categoryID);
-                // console.log(this.product);
-                
-
                 this.setForm();
 
-                 // this.catChngd.subscribe((id)=>{
-
-                 //   console.log(id);
-                 //     this.getAddFields(id);
-                 //     this.setForm();
-                 //      console.log("categories changed id");
-                 //  console.log(id);
-                  
-                 //     // this.setForm();
-                 // });
-
-
-
-               
-                  console.log( this.productForm);
+              
+                  // console.log( this.productForm);
 
 
                  this.productForm.controls['categories'].valueChanges.subscribe((id)=>{
                     this.getAddFields(id);
-                    console.log("categories changed id");
-                  console.log(id);
-                     // this.setForm();
-                      // this.productForm.controls['additionalFields'].patchValue([1,2]);
-
-                      this.productForm.controls['additionalFields']= this.setFields(); 
+                    // console.log("add fields form");
+                    // console.log( this.productForm.controls['additionalFields']);
+                    this.productForm.controls['additionalFields']= this.setFields(); 
                  });
                
 
@@ -80,7 +63,21 @@ export class ProductEditSingleComponent implements OnInit {
 
   }
 
+isEmptyObj(obj){
+  for(var prop in obj){
+              if (obj.hasOwnProperty(prop)){
+                return false;
+              }
+          }
+
+          return  JSON.stringify(obj) === JSON.stringify({});
+}
+
+
+
   getAddFields(id:number){
+
+       //GET CAT NAMES AND SET THEM TO VAR
       this.categories.forEach((category_,i,marr)=>{
             if(category_['id']==id){
               this.catFields=JSON.parse(category_.additionalFields);
@@ -88,18 +85,42 @@ export class ProductEditSingleComponent implements OnInit {
            
       });
 
-      console.log("product: ");
-      console.log(this.product);
 
+      let prdFields=this.product.additionalFields;
+
+
+     //SET TO EMPTY ARRAY EVERY TIME WHEN CATEGORY SELECT CHANGES
+        this.catPrdFieldsArr=[];
+
+     //CHECK IF PRODUCT ADDFIELDS IS NOT EMPTY AND SET CAT FIELDS TO PRDCT FIELDS IF MACTH
+        if(prdFields){
+           let prdFieldsArrObj=JSON.parse(prdFields);
+           // console.log(prdFieldsArrObj);
+              this.catFields.forEach((ctFieldName,i,arr)=>{
+                prdFieldsArrObj.forEach((prdFields,i,arr)=>{
+                       if(ctFieldName==prdFields['catName']){
+                         // console.log(prdFields['catName']);
+                         this.catPrdFieldsArr.push({'catName':prdFields['catName'],'catValue':prdFields['catValue']});
+                       }
+                });
+              });
+              //CHANGE ARRAY  TO SET CATEGORY ADDITIONAL FIELDS
+            //SET ADD FIELDS TO PRODUCT IF CATEGROIES FIELDS DONT MATCH WITH PROD
+
+              if(this.catPrdFieldsArr.length==0){
+                this.catFields.forEach((ctFieldName,i,arr)=>{
+                    
+                           this.catPrdFieldsArr.push({
+                                'catName':ctFieldName,
+                                'catValue':''
+                              })
+                });
+              }
+        }
   }
 
 
-  categoryChange(id:any){
-   this.catChngd.emit(id);
-    console.log(id);
 
-
-  }
 
 
 
@@ -123,18 +144,24 @@ export class ProductEditSingleComponent implements OnInit {
 
     }
 
-    setFields():any{
-      let addFieldArr= new FormArray([]);
-        this.catFields.forEach(function(category_,i,arr){
-            addFieldArr.push(new FormControl(category_));
-           
-        });
-        console.log(addFieldArr);
+    setFields():any{      
+         let addFieldArr= new FormArray([]);
+       this.catPrdFieldsArr.forEach((catField,i,arr)=>{
+               let option=new FormGroup({
+                'catName':new FormControl(catField['catName'],Validators.required),
+               'catValue':new FormControl(catField['catValue'],Validators.required)
+               });
+             
+
+                addFieldArr.push(option)
+       });
+     
 
         return addFieldArr;
+
     }
 
-//SETS INIZIALIZED BEFORE VALUES TO FORM
+//SETS INIZIALIZED  VALUES TO FORM
     setForm(){
         this.productForm.controls['title'].patchValue(this.product.title);
         this.productForm.controls['categories'].patchValue(this.product.categoryID);
@@ -159,10 +186,24 @@ export class ProductEditSingleComponent implements OnInit {
 
 
   onSubmit(){
-   
+  
+    // console.log( this.productForm.value);
+    // console.log(this.id);
+    this.userService.updateProduct(this.productForm,this.id)
+    .subscribe((response)=>{
+      console.log(response);
+    },
+    (error)=>{
+      console.log(error);
+    });
   }
 
   onDelete(){
+
+    this.userService.deleteProduct(this.id).subscribe((product:Product)=>{
+        this.userService.prodChanged(product,'del');
+      console.log(product);
+    });
     
   }
 
