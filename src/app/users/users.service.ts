@@ -113,7 +113,7 @@ export class UsersService implements OnDestroy{
       this.categoriesChanged.next(this.categories.slice());
   }
 
-  getCategory(id):any{
+  getCategory(id):Category{
  
     let _categoryObj;
          this.categories.forEach(function(categoryObj){
@@ -264,7 +264,7 @@ deleteProduct(id:number){
  
 
 
-  getToken(){
+  getToken():string{
     return this.authService.getToken();
   }
 

@@ -70,7 +70,7 @@ import {SharedModule} from "../shared/shared.module";
 })
 
 
-// довга загрузка між сторінками і при запуску аплікухи
+// optimaze load time of whole app
 
 export class CoreModule {
 

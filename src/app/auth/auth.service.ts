@@ -43,7 +43,7 @@ export class AuthService {
       }
    
 
-    emitModalTag(modal) {
+    emitModalTag(modal):void {
        this.openModal.next(modal);
     }
 
@@ -89,7 +89,7 @@ export class AuthService {
           });
     }
 
-    getToken(){
+    getToken():string{
 
       //   FIX IN CASE IF TOKEN EXPIRED LOOK INTO RECIPEAPP
       // this.token= localStorage.getItem("token");
@@ -102,7 +102,7 @@ export class AuthService {
       localStorage.removeItem("token");
     }
 
-  isAuthenticated(){
+  isAuthenticated():boolean{
     // this.token= localStorage.getItem("token");
     console.log('isAuthenticated call'+this.token);
     return this.token!=null;
@@ -111,7 +111,7 @@ export class AuthService {
 
 
 
-  isAdmin(token):Boolean {
+  isAdmin(token):boolean {
               const base64Url=token.split('.')[1];
               const base64=base64Url.replace('-','+').replace('_','/');
               console.log(JSON.parse(window.atob(base64)));

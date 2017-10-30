@@ -39,7 +39,7 @@ export class ProductEditSingleComponent implements OnInit {
               this.categories=categories;
               // console.log(categories);
                this.product=this.userService.getProduct(this.id);
-               this.getAddFields(this.product.categoryID);
+               this.showAddFields(this.product.categoryID);
                 this.setForm();
 
               
@@ -47,7 +47,7 @@ export class ProductEditSingleComponent implements OnInit {
 
 
                  this.productForm.controls['categories'].valueChanges.subscribe((id)=>{
-                    this.getAddFields(id);
+                    this.showAddFields(id);
                     // console.log("add fields form");
                     // console.log( this.productForm.controls['additionalFields']);
                     this.productForm.controls['additionalFields']= this.setFields(); 
@@ -75,7 +75,7 @@ isEmptyObj(obj){
 
 
 
-  getAddFields(id:number){
+  showAddFields(id:number){
 
        //GET CAT NAMES AND SET THEM TO VAR
       this.categories.forEach((category_,i,marr)=>{
@@ -177,12 +177,7 @@ isEmptyObj(obj){
 
     
 
-    AddField(){
-     
-     
-    }
-    
-
+   
 
 
   onSubmit(){
